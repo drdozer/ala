@@ -87,6 +87,10 @@ object Expr {
     def apply(a: (Term, Term), b: (Term, Term)): Expr[OP]
   }
 
+  /** If (a, b) are a first/last pair, then a <= b. */
+  def asExpr(a: Term, b: Term): Expr[LessThanOrEqualTo.type] = lessThanOrEqualTo(a, b)
+
+  /** Represent an ALA tripple as an equivalent expression. */
   def asExpr[P <: AlaPredicate, E <: Expr[OP], OP](a: (Term, Term), p: P, b: (Term, Term))
                                                   (implicit ae: AsExpr[P, E]) = ae.apply(a, b)
 
