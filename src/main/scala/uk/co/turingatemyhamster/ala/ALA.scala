@@ -47,13 +47,13 @@ object AlaPredicate {
 
   /** The end of range a is one before the end of range a */
   object follows extends AlaPredicate {
-    def holdsFor(a: BioRange, B: BioRange) = meets(b, a)
+    def holdsFor(a: BioRange, b: BioRange) = meets.holdsFor(b, a)
     def reverse = meets
   }
 
   /** There are some positions shared by both a and b. */
   object overlaps extends AlaPredicate {
-    def holdsFor(a: BioRange, b: BioRange) = !before(a, b) && !after(a, b)
+    def holdsFor(a: BioRange, b: BioRange) = !before.holdsFor(a, b) && !after.holdsFor(a, b)
     def reverse = overlaps
   }
 
@@ -77,12 +77,12 @@ object AlaPredicate {
 
   /** The whole of range b is within range a. */
   object contains extends AlaPredicate {
-    def holdsFor(a: BioRange, b: BioRange) = within(b, a)
+    def holdsFor(a: BioRange, b: BioRange) = within.holdsFor(b, a)
     def reverse = within
   }
 
   /** The two ranges are identical in extent. */
-  object equal extends AlaPredicte {
+  object equal extends AlaPredicate {
     def holdsFor(a: BioRange, b: BioRange) = a.first == b.first && a.last == b.last
     def reverse = equal
   }
