@@ -28,63 +28,63 @@ sealed trait AlaPredicate {
 object AlaPredicate {
 
   /** The whole of range a is before range b. */
-  object before extends AlaPredicate {
+  object Before extends AlaPredicate {
     def holdsFor(a: BioRange, b: BioRange) = a.last < b.first
-    def reverse = after
+    def reverse = After
   }
 
   /** The whole of range a is after range b. */
-  object after extends AlaPredicate {
-    def holdsFor(a: BioRange, b: BioRange) = before.holdsFor(b, a)
-    def reverse = before
+  object After extends AlaPredicate {
+    def holdsFor(a: BioRange, b: BioRange) = Before.holdsFor(b, a)
+    def reverse = Before
   }
 
   /** The start of range b is one after the end of range a. */
-  object meets extends AlaPredicate {
+  object Meets extends AlaPredicate {
     def holdsFor(a: BioRange, b: BioRange) = (a.last + 1) == b.first
-    def reverse = follows
+    def reverse = Follows
   }
 
   /** The end of range a is one before the end of range a */
-  object follows extends AlaPredicate {
-    def holdsFor(a: BioRange, b: BioRange) = meets.holdsFor(b, a)
-    def reverse = meets
+  object Follows extends AlaPredicate {
+    def holdsFor(a: BioRange, b: BioRange) = Meets.holdsFor(b, a)
+    def reverse = Meets
   }
 
   /** There are some positions shared by both a and b. */
-  object overlaps extends AlaPredicate {
-    def holdsFor(a: BioRange, b: BioRange) = !before.holdsFor(a, b) && !after.holdsFor(a, b)
-    def reverse = overlaps
+  object Overlaps extends AlaPredicate {
+    def holdsFor(a: BioRange, b: BioRange) = !Before.holdsFor(a, b) && !After.holdsFor(a, b)
+    def reverse = Overlaps
   }
 
   /** The two ranges start at the same location. */
-  object sameFirst extends AlaPredicate {
+  object SameFirst extends AlaPredicate {
     def holdsFor(a: BioRange, b: BioRange) = a.first == b.first
-    def reverse = sameFirst
+    def reverse = SameFirst
   }
 
   /** The two ranges end at the same location. */
-  object sameLast extends AlaPredicate {
+  object SameLast extends AlaPredicate {
     def holdsFor(a: BioRange, b: BioRange) = a.last == b.last
-    def reverse = sameLast
+    def reverse = SameLast
   }
 
   /** The whole of range a is within range b. */
-  object within extends AlaPredicate {
+  object Within extends AlaPredicate {
     def holdsFor(a: BioRange, b: BioRange) = a.first >= b.first && a.last <= b.last
-    def reverse = contains
+    def reverse = Contains
   }
 
   /** The whole of range b is within range a. */
-  object contains extends AlaPredicate {
-    def holdsFor(a: BioRange, b: BioRange) = within.holdsFor(b, a)
-    def reverse = within
+  object Contains extends AlaPredicate {
+    def holdsFor(a: BioRange, b: BioRange) = Within.holdsFor(b, a)
+    def reverse = Within
   }
 
   /** The two ranges are identical in extent. */
-  object equal extends AlaPredicate {
+  object Equal extends AlaPredicate {
     def holdsFor(a: BioRange, b: BioRange) = a.first == b.first && a.last == b.last
-    def reverse = equal
+    def reverse = Equal
   }
 }
 
